@@ -1,0 +1,19 @@
+<%= form_with(model: [portfolio.tattoo_artist, portfolio, comment]) do |f| %>
+  <% if comment.errors.any? %>
+    <div>
+      <ul>
+        <% comment.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.text_area :body, placeholder: "Escribe un comentario..." %>
+  </div>
+
+  <div>
+    <%= f.submit "Comentar" %>
+  </div>
+<% end %>

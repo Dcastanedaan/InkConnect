@@ -1,0 +1,46 @@
+<%= form_with model: tattoo_artist do |f| %>
+
+  <% if tattoo_artist.errors.any? %>
+    <div>
+      <h4><%= pluralize(tattoo_artist.errors.count, "error") %></h4>
+      <ul>
+        <% tattoo_artist.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :studio_name %>
+    <%= f.text_field :studio_name %>
+  </div>
+
+  <div>
+    <%= f.label :bio %>
+    <%= f.text_area :bio %>
+  </div>
+
+  <div>
+    <%= f.label :location %>
+    <%= f.text_field :location %>
+  </div>
+
+  <div>
+    <%= f.label :instagram %>
+    <%= f.text_field :instagram %>
+  </div>
+
+  <div>
+    <%= f.label :website %>
+    <%= f.text_field :website %>
+  </div>
+
+  <div>
+    <%= f.label :hourly_rate %>
+    <%= f.number_field :hourly_rate %>
+  </div>
+
+  <%= f.submit "Crear perfil" %>
+
+<% end %>

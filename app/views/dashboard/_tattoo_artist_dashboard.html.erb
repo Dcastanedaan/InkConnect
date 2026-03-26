@@ -1,0 +1,29 @@
+<h2>Mi perfil de tatuador</h2>
+
+<p>
+Studio:
+<%= @tattoo_artist.studio_name %>
+</p>
+
+<p>
+Bio:
+<%= @tattoo_artist.bio %>
+</p>
+
+<hr>
+
+<h2>Mis portfolios</h2>
+
+<%= link_to "Nuevo Portfolio",
+    new_tattoo_artist_portfolio_path(@tattoo_artist),
+    data: { turbo_frame: "new_portfolio" } %>
+
+<%= turbo_frame_tag "new_portfolio" %>
+
+<hr>
+
+<div id="portfolios">
+
+  <%= render @portfolios %>
+
+</div>

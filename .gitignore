@@ -1,0 +1,143 @@
+# =========================================
+
+# Rails + PostgreSQL + Docker .gitignore
+
+# =========================================
+
+# -----------------------
+
+# Ruby / Rails
+
+# -----------------------
+
+*.rbc
+*.sassc
+.sass-cache
+.byebug_history
+.rspec
+coverage/
+spec/tmp/
+capybara-*.html
+
+# -----------------------
+
+# Logs & Temp files
+
+# -----------------------
+
+/log/*
+!/log/.keep
+/tmp/*
+!/tmp/.keep
+/tmp/pids/*
+!/tmp/pids/
+/tmp/cache/*
+!/tmp/cache/.keep
+/tmp/sockets/*
+!/tmp/sockets/.keep
+
+# -----------------------
+
+# Database (solo si usas sqlite en dev)
+
+# -----------------------
+
+db/*.sqlite3
+db/*.sqlite3-*
+db/*.sqlite3-journal
+
+# -----------------------
+
+# Storage (Active Storage)
+
+# -----------------------
+
+/storage/*
+!/storage/.keep
+
+# -----------------------
+
+# Environment variables
+
+# -----------------------
+
+.env
+.env.*
+!.env.example
+
+# -----------------------
+
+# Rails credentials (MUY IMPORTANTE)
+
+# -----------------------
+
+/config/master.key
+/config/credentials/*.key
+
+# -----------------------
+
+# Assets
+
+# -----------------------
+
+/public/assets
+/public/packs
+/node_modules
+
+# -----------------------
+
+# Yarn / npm logs
+
+# -----------------------
+
+yarn-debug.log*
+yarn-error.log*
+npm-debug.log*
+package-lock.json
+
+# -----------------------
+
+# Docker
+
+# -----------------------
+
+docker-compose.override.yml
+.env.docker
+
+# -----------------------
+
+# IDE / Editors
+
+# -----------------------
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -----------------------
+
+# OS files
+
+# -----------------------
+
+.DS_Store
+Thumbs.db
+
+# -----------------------
+
+# Misc
+
+# -----------------------
+
+*.log
+
+# -----------------------
+
+# Keep important placeholders
+
+# -----------------------
+
+!/log/.keep
+!/tmp/.keep
+!/storage/.keep

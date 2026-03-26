@@ -1,0 +1,19 @@
+<h1><%= @tattoo_artist.studio_name %></h1>
+
+<p>
+<%= @tattoo_artist.bio %>
+</p>
+
+<p>
+📍 <%= @tattoo_artist.location %>
+</p>
+
+<hr>
+
+<h2>Trabajos</h2>
+
+<div class="portfolio-grid">
+
+  <%= render @portfolios %>
+
+</div>

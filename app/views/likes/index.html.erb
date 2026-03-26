@@ -1,0 +1,7 @@
+<!-- app/views/likes/index.html.erb -->
+<h3>Likes de <%= @portfolio.title %></h3>
+<ul>
+  <% @likes.each do |like| %>
+    <li><%= like.user.username %></li>
+  <% end %>
+</ul>

@@ -1,0 +1,22 @@
+<div id="<%= dom_id(tattoo_artist) %>">
+
+  <h1><%= tattoo_artist.studio_name %></h1>
+
+  <p><%= tattoo_artist.bio %></p>
+
+  <p>
+    📍 <%= tattoo_artist.location %>
+  </p>
+
+  <% if tattoo_artist.instagram.present? %>
+    <p>
+      Instagram:
+      <%= link_to tattoo_artist.instagram, tattoo_artist.instagram, target: "_blank" %>
+    </p>
+  <% end %>
+
+  <p>
+    💰 <%= number_to_currency(tattoo_artist.hourly_rate) %> / hora
+  </p>
+
+</div>

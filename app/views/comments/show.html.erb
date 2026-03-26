@@ -1,0 +1,20 @@
+<h2><%= @portfolio.title %></h2>
+<p><%= @portfolio.description %></p>
+
+<hr>
+
+<h3>Comentarios</h3>
+
+<div id="comments">
+  <%= render @portfolio.comments.includes(:user) %>
+</div>
+
+<% if user_signed_in? %>
+  <div id="new_comment">
+    <%= render "comments/form",
+        portfolio: @portfolio,
+        comment: @portfolio.comments.build %>
+  </div>
+<% else %>
+  <p>Debes iniciar sesión para comentar.</p>
+<% end %>

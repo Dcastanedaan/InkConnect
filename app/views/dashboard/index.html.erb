@@ -1,0 +1,12 @@
+<h1>Dashboard</h1>
+
+<%# Si el usuario es tatuador %>
+<% if current_user.tattoo_artist? %>
+
+  <%= render "tattoo_artist_dashboard" %>
+
+<% else %>
+
+  <h2>Explorar tatuadores</h2>
+
+<% end %>

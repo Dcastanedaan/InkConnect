@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "like_frame_#{@portfolio.id}" do %>
+  <%= render "portfolios/like_button", portfolio: @portfolio %>
+<% end %>
+
+<%= turbo_stream.replace "like_count_#{@portfolio.id}" do %>
+  Likes: <%= @portfolio.likes.count %>
+<% end %>

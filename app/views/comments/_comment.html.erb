@@ -1,0 +1,17 @@
+<div id="<%= dom_id(comment) %>">
+  <p><%= comment.body %></p>
+
+  <small>
+    <strong><%= comment.user.username %></strong>
+    (<%= comment.user.role %>)
+  </small>
+
+  <% if user_signed_in? && (comment.user == current_user || current_user.admin?) %>
+    <div>
+      <%= button_to "Eliminar",
+    [comment.portfolio.tattoo_artist, comment.portfolio, comment],
+    method: :delete,
+    data: { turbo_confirm: "¿Seguro?" } %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,23 @@
+<%= turbo_stream.replace "like_frame_#{@portfolio.id}" do %>
+  <%= turbo_frame_tag "like_frame_#{@portfolio.id}" do %>
+    <% like = @portfolio.likes.find_by(user: current_user) %>
+
+    <% if like %>
+      <%= button_to "Unlike",
+          tattoo_artist_portfolio_like_path(@portfolio.tattoo_artist, @portfolio, like),
+          method: :delete,
+          form: { data: { turbo_stream: true } } %>
+    <% else %>
+      <%= button_to "Like",
+          tattoo_artist_portfolio_likes_path(@portfolio.tattoo_artist, @portfolio),
+          method: :post,
+          form: { data: { turbo_stream: true } } %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.replace "like_count_#{@portfolio.id}" do %>
+  <%= turbo_frame_tag "like_count_#{@portfolio.id}" do %>
+    Likes: <%= @portfolio.likes.reload.count %>
+  <% end %>
+<% end %>

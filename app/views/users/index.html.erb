@@ -1,0 +1,42 @@
+<% if current_user.admin? %>
+  <h2>Create User</h2>
+  <%= render "form" %>
+<% end %>
+
+<hr>
+
+<h2>User List</h2>
+
+<div class="row">
+  <% @users.each do |user| %>
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-secondary text-white">
+          <h5 class="mb-0"><%= user.name %> (<%= user.role %>)</h5>
+        </div>
+
+        <div class="card-body">
+          <p><strong>Username:</strong> <%= user.username %></p>
+          <p><strong>Email:</strong> <%= user.email %></p>
+
+          <% if user.tattoo_artist.present? && user.tattoo_artist.portfolios.any? %>
+            <p><strong>Portfolios:</strong></p>
+            <ul class="list-group list-group-flush">
+              <% user.tattoo_artist.portfolios.each do |portfolio| %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <%= link_to portfolio.title, tattoo_artist_portfolio_path(user.tattoo_artist, portfolio) %>
+                  <span>
+                    <span class="badge bg-primary me-1">Likes: <%= portfolio.likes.count %></span>
+                    <span class="badge bg-success">Comentarios: <%= portfolio.comments.count %></span>
+                  </span>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="text-muted">No tiene portfolios</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

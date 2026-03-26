@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <!-- Card de Bootstrap -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Create New User</h5>
+        </div>
+
+        <div class="card-body">
+          <%= form_with(model: @user, url: create_by_admin_users_path, local: true) do |f| %>
+            
+            <div class="mb-3">
+              <%= f.text_field :name, placeholder: "Name", class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.text_field :username, placeholder: "Username", class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.email_field :email, placeholder: "Email", class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.password_field :password, placeholder: "Password", class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.password_field :password_confirmation, placeholder: "Confirm Password", class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.select :role, User.roles.keys, {}, class: "form-select" %>
+            </div>
+
+            <div class="d-grid">
+              <%= f.submit "Create User", class: "btn btn-primary" %>
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
