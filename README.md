@@ -104,7 +104,6 @@ https://dbdiagram.io
 
 **Architecture**
 
-* RESTful APIs___??????????
 * ActiveRecord ORM
 
 ---
