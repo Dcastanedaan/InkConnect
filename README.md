@@ -84,6 +84,97 @@ El diseño de la base de datos fue realizado usando:
 
 https://dbdiagram.io
 
+Table users {
+id bigint [pk]
+name varchar
+username varchar [unique]
+email varchar [unique]
+encrypted_password varchar
+role varchar
+bio text
+avatar_url varchar
+location varchar
+created_at timestamp
+updated_at timestamp
+}
+
+Table tattoo_artists {
+id bigint [pk]
+user_id bigint [unique]
+studio_name varchar
+bio text
+location varchar
+instagram varchar
+website varchar
+hourly_rate decimal
+created_at timestamp
+updated_at timestamp
+}
+
+Table portfolios {
+id bigint [pk]
+tattoo_artist_id bigint
+title varchar
+description text
+created_at timestamp
+updated_at timestamp
+}
+
+Table portfolio_media {
+id bigint [pk]
+portfolio_id bigint
+media_type varchar
+image_url varchar
+youtube_url varchar
+created_at timestamp
+}
+
+Table tattoo_styles {
+id bigint [pk]
+name varchar [unique]
+}
+
+Table portfolio_styles {
+portfolio_id bigint
+style_id bigint
+}
+
+Table appointments {
+id bigint [pk]
+client_id bigint
+tattoo_artist_id bigint
+start_time timestamp
+end_time timestamp
+status varchar
+price decimal
+notes text
+created_at timestamp
+updated_at timestamp
+}
+
+Table reviews {
+id bigint [pk]
+user_id bigint
+tattoo_artist_id bigint
+rating integer
+comment text
+created_at timestamp
+}
+
+Table likes {
+id bigint [pk]
+user_id bigint
+portfolio_id bigint
+created_at timestamp
+}
+
+Table follows {
+id bigint [pk]
+user_id bigint
+tattoo_artist_id bigint
+created_at timestamp
+}
+
 ---
 
 # 🛠️ Tech Stack
