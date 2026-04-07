@@ -1,4 +1,4 @@
-<div id="<%= dom_id(comment) %>">
+<div id="<%= dom_id(comment) %>" class="card mb-2 p-2">
   <p><%= comment.body %></p>
 
   <small>
@@ -8,10 +8,13 @@
 
   <% if user_signed_in? && (comment.user == current_user || current_user.admin?) %>
     <div>
-      <%= button_to "Eliminar",
-    [comment.portfolio.tattoo_artist, comment.portfolio, comment],
-    method: :delete,
-    data: { turbo_confirm: "¿Seguro?" } %>
+      <%= button_to [comment.portfolio.tattoo_artist, comment.portfolio, comment],
+          method: :delete,
+          form: { data: { turbo_stream: true } },
+          class: "trash-btn",
+          data: { turbo_confirm: "Are you sure?" } do %>
+        <i class="fa-solid fa-trash trash-icon"></i>
+      <% end %>
     </div>
   <% end %>
 </div>

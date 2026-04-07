@@ -15,6 +15,12 @@
           <li class="nav-item">
             <%= link_to "Portafolios", portfolios_path, class: "nav-link" %>
           </li>
+          <li><% if current_user&.tattoo_artist %>
+          <li>
+             <%= link_to "Mis portafolios", tattoo_artist_portfolios_path(current_user.tattoo_artist), class: "nav-link" %>
+          </li>
+          <%= link_to "Crear portfolio", new_tattoo_artist_portfolio_path(current_user.tattoo_artist), class: "nav-link" %>
+          <% end %></li>
         <% end %>
       </ul>
 

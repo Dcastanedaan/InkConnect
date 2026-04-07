@@ -3,8 +3,12 @@ class PortfoliosController < ApplicationController
   before_action :set_tattoo_artist
 
   def index
-    # @portfolios = @tattoo_artist.portfolios
-    @portfolios = Portfolio.includes(:tattoo_artist, images_attachments: :blob, likes: :user).all
+    if params[:tattoo_artist_id]
+      @tattoo_artist = TattooArtist.find(params[:tattoo_artist_id])
+      @portfolios = @tattoo_artist.portfolios
+    else
+      @portfolios = Portfolio.includes(:tattoo_artist, images_attachments: :blob, likes: :user).all
+    end
   end
 
   def show
@@ -17,12 +21,14 @@ class PortfoliosController < ApplicationController
   end
 
   def create
+    # @tattoo_artist = TattooArtist.find(params[:tattoo_artist_id])
     @portfolio = @tattoo_artist.portfolios.new(portfolio_params)
 
     if @portfolio.save
-      redirect_to dashboard_path
+      # redirect_to dashboard_path
+       redirect_to tattoo_artist_portfolio_path(@tattoo_artist, @portfolio), notice: "Portfolio creado correctamente ✅"
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 

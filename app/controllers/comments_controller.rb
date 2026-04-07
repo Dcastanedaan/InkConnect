@@ -12,11 +12,20 @@ class CommentsController < ApplicationController
         format.html { redirect_to @portfolio, notice: "Comentario creado." }
       end
     else
-      render turbo_stream: turbo_stream.replace(
-        "new_comment",
-        partial: "comments/form",
-        locals: { portfolio: @portfolio, comment: @comment }
-      )
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "new_comment",
+            partial: "comments/form",
+            locals: { portfolio: @portfolio, comment: @comment }
+          )
+        end
+
+        format.html do
+          flash.now[:alert] = "Error al crear el comentario"
+          render "portfolios/show", status: :unprocessable_entity
+        end
+      end
     end
   end
 

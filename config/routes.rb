@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   
   get "dashboard", to: "dashboard#index"
   resources :tattoo_artists do
-    resources :portfolios, only: [:show] do
+    resources :portfolios, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
       resources :likes, only: [:create, :destroy]
       resources :comments, only: [:create, :update, :destroy]
     end

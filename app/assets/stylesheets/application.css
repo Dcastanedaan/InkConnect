@@ -1,10 +1,144 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+/* Portfolio Card */
+.portfolio-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Make card fill its column */
+}
+
+/* Images Container */
+.portfolio-images {
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+  overflow-y: auto;   /* Scroll vertical if too many images */
+  max-height: 300px;  /* Limit image container height */
+}
+
+.portfolio-images.one { grid-template-columns: 1fr; }
+.portfolio-images.two { grid-template-columns: repeat(2, 1fr); }
+.portfolio-images.three { grid-template-columns: repeat(3, 1fr); }
+.portfolio-images.four { grid-template-columns: repeat(2, 1fr); }
+.portfolio-images.more { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+
+.portfolio-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Like Button */
+.like-container {
+  display: flex;
+  align-items: center;
+  padding-top: 0.5rem;
+  border-top: 1px solid #dee2e6;
+  margin-top: auto;
+}
+
+.like-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.like-btn:focus { outline: none; }
+
+.like-btn:hover i.fa-regular { color: #e0245e; }
+.like-btn i.fa-solid { color: #e0245e; }
+.like-btn i.fa-regular { color: #000; transition: color 0.2s; }
+
+/* Comments Container */
+.comments-container {
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.comments-container .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Avoid overflow */
+}
+
+/* Scrollable comment list */
+.comments-list {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 4px;
+}
+
+/* Optional scrollbar styling */
+.comments-list::-webkit-scrollbar { width: 6px; }
+.comments-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+
+/* Textarea Styles */
+.custom-textarea {
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  resize: none;
+  transition: all 0.2s ease;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  background-color: #f8f9fa;
+}
+
+.custom-textarea:focus {
+  border-color: #6c757d;
+  box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.15);
+  background-color: #fff;
+}
+
+/* Button Styles */
+.custom-btn {
+  background: linear-gradient(135deg, #6c757d, #495057);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.custom-btn:hover { background: linear-gradient(135deg, #5a6268, #7e8185); transform: translateY(-1px); }
+.custom-btn:active { transform: scale(0.97); }
+
+/* Trash Button */
+.trash-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.trash-btn:focus {
+  outline: none;
+}
+
+/* Trash Icon - only border color red */
+.trash-icon {
+  font-size: 1.2rem;
+  color: #dc3545; /* border red only */
+  transition: color 0.2s ease;
+}
+
+/* Hover or click does NOT change the icon or fill */
+.trash-btn:hover .trash-icon,
+.trash-btn:active .trash-icon {
+  color: #dc3545; /* stays red border only */
+}

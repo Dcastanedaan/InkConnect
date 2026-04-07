@@ -3,9 +3,10 @@
 <div class="container">
   <div class="row g-4">
     <% @portfolios.each do |portfolio| %>
-      <div class="col-12">
-        <div class="card shadow-sm">
-          <div class="card-body">
+      <div class="col-md-6 col-lg-4 d-flex"> <!-- flex para altura uniforme -->
+        <div class="card shadow-sm portfolio-card d-flex flex-column w-100">
+          <div class="card-body d-flex flex-column flex-grow-1">
+
             <!-- Título y enlace -->
             <h3 class="card-title">
               <%= link_to portfolio.title, tattoo_artist_portfolio_path(portfolio.tattoo_artist, portfolio), class: "text-decoration-none" %>
@@ -15,37 +16,47 @@
             <p class="text-muted mb-2">Artista: <%= portfolio.tattoo_artist.user.name %></p>
 
             <!-- Descripción -->
-            <p class="card-text"><%= portfolio.description %></p>
+            <p class="card-text flex-shrink-0"><%= portfolio.description %></p>
 
             <!-- Imágenes -->
             <% if portfolio.images.attached? %>
-              <div class="d-flex flex-wrap gap-2 mb-3">
+              <% images_count = portfolio.images.count %>
+              <% grid_class = case images_count
+                  when 1 then "one"
+                  when 2 then "two"
+                  when 3 then "three"
+                  when 4 then "four"
+                  else "more"
+                end %>
+
+              <div class="portfolio-images <%= grid_class %> flex-grow-1 mb-3">
                 <% portfolio.images.each do |img| %>
-                  <div class="card" style="width: 150px;">
-                    <%= image_tag img.variant(resize_to_limit: [300, 300]).processed, class: "card-img-top", style: "height: 150px; object-fit: cover;", alt: portfolio.title %>
-                  </div>
+                  <%= image_tag img.variant(resize_to_limit: [300, 300]).processed, alt: portfolio.title %>
                 <% end %>
               </div>
             <% else %>
-              <p class="text-muted">No hay imágenes</p>
+              <p class="text-muted flex-grow-1">No hay imágenes</p>
             <% end %>
 
-            <!-- Botón Like y contador -->
-            <div class="d-flex align-items-center">
+            <!-- Like -->
+            <div class="like-container mt-auto">
               <div class="me-3" id="like_frame_<%= portfolio.id %>">
                 <% like = portfolio.likes.find_by(user: current_user) %>
+
                 <% if like %>
-                  <%= button_to "Unlike",
-                      tattoo_artist_portfolio_like_path(portfolio.tattoo_artist, portfolio, like),
+                  <%= button_to tattoo_artist_portfolio_like_path(portfolio.tattoo_artist, portfolio, like),
                       method: :delete,
                       form: { data: { turbo_stream: true } },
-                      class: "btn btn-outline-danger btn-sm" %>
+                      class: "like-btn" do %>
+                    <i class="fa-solid fa-heart text-danger"></i>
+                  <% end %>
                 <% else %>
-                  <%= button_to "Like",
-                      tattoo_artist_portfolio_likes_path(portfolio.tattoo_artist, portfolio),
+                  <%= button_to tattoo_artist_portfolio_likes_path(portfolio.tattoo_artist, portfolio),
                       method: :post,
                       form: { data: { turbo_stream: true } },
-                      class: "btn btn-outline-primary btn-sm" %>
+                      class: "like-btn" do %>
+                    <i class="fa-regular fa-heart"></i>
+                  <% end %>
                 <% end %>
               </div>
 
@@ -53,9 +64,10 @@
                 Likes: <%= portfolio.likes.count %>
               </span>
             </div>
-          </div>
-        </div>
-      </div>
+
+          </div> <!-- card-body -->
+        </div> <!-- card -->
+      </div> <!-- col -->
     <% end %>
   </div>
 </div>

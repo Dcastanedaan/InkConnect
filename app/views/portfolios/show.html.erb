@@ -1,122 +1,107 @@
 <div class="container mt-4">
   <div class="row">
-    <!-- Columna izquierda: Portfolio -->
-    <div class="col-md-6 mb-3">
-      <div class="card shadow-sm" style="height: 500px;">
+
+    <!-- Left Column: Portfolio -->
+    <div class="col-md-6 mb-3 d-flex">
+      <div class="card shadow-sm portfolio-card d-flex flex-column w-100">
         <div class="card-header bg-primary text-white">
-          <h2 class="mb-0">Portfolio</h2>
+          <h2 class="mb-0">Portafolio</h2>
         </div>
 
-        <div class="card-body d-flex flex-column" style="height: 100%;">
-          <!-- Imágenes -->
-          <% if @portfolio.images.attached? %>
-            <div class="d-flex flex-wrap gap-2 mb-3 flex-grow-1 overflow-auto">
-              <% @portfolio.images.each do |img| %>
-                <div class="card" style="width: 180px;">
-                  <%= image_tag img, class: "card-img-top", style: "height: 120px; object-fit: cover;" %>
+        <div class="card-body d-flex flex-column flex-grow-1">
 
-                  <div class="card-body p-1 d-flex justify-content-between align-items-center">
-                    <!-- Contador de likes de la imagen -->
-                    <span class="badge bg-primary"><%= @portfolio.likes.count %> ❤️</span>
-                  </div>
+          <!-- Portfolio Information -->
+          <div class="mb-2">
+            <p class="fw-bold mb-0"><%= @portfolio.tattoo_artist.user.name %></p>
+            <div class="d-flex align-items-center fw-bold mb-1">
+              <p class="mb-0 me-2"><%= @portfolio.title %></p>
+              <span class="badge bg-primary"><%= @portfolio.likes.count %> ❤️</span>
+            </div>
+            <p class="text-muted mb-2"><%= @portfolio.description %></p>
+          </div>
+
+          <!-- Images Container -->
+          <% if @portfolio.images.attached? %>
+            <% images_count = @portfolio.images.count %>
+            <% grid_class = case images_count
+                when 1 then "one"
+                when 2 then "two"
+                when 3 then "three"
+                when 4 then "four"
+                else "more"
+              end %>
+
+            <div class="portfolio-images <%= grid_class %> flex-grow-1 mb-2">
+              <% @portfolio.images.each do |img| %>
+                <div class="image-card">
+                  <%= image_tag img, alt: @portfolio.title %>
                 </div>
               <% end %>
             </div>
           <% else %>
-            <p class="text-muted">No hay imágenes</p>
+            <p class="text-muted flex-grow-1">No images</p>
           <% end %>
 
-          <!-- Botón Like general debajo de todas las imágenes -->
-          <div class="mt-2 d-flex align-items-center">
-            <%= turbo_frame_tag "like_frame_#{@portfolio.id}" do %>
-              <% like = @portfolio.likes.find_by(user: current_user) %>
-
-              <% if like %>
-                <%= button_to "Unlike",
-                    tattoo_artist_portfolio_like_path(@portfolio.tattoo_artist, @portfolio, like),
-                    method: :delete,
-                    form: { data: { turbo_stream: true } },
-                    class: "btn btn-outline-danger me-2" %>
-              <% else %>
-                <%= button_to "Like",
-                    tattoo_artist_portfolio_likes_path(@portfolio.tattoo_artist, @portfolio),
-                    method: :post,
-                    form: { data: { turbo_stream: true } },
-                    class: "btn btn-outline-primary me-2" %>
+          <!-- Like Button at the bottom -->
+          <div class="like-container mt-auto">
+            <div class="me-3" id="like_frame_<%= @portfolio.id %>">
+              <%= turbo_frame_tag "like_frame_#{@portfolio.id}" do %>
+                <% like = @portfolio.likes.find_by(user: current_user) %>
+                <% if like %>
+                  <%= button_to tattoo_artist_portfolio_like_path(@portfolio.tattoo_artist, @portfolio, like),
+                      method: :delete,
+                      form: { data: { turbo_stream: true } },
+                      class: "like-btn" do %>
+                    <i class="fa-solid fa-heart"></i>
+                  <% end %>
+                <% else %>
+                  <%= button_to tattoo_artist_portfolio_likes_path(@portfolio.tattoo_artist, @portfolio),
+                      method: :post,
+                      form: { data: { turbo_stream: true } },
+                      class: "like-btn" do %>
+                    <i class="fa-regular fa-heart"></i>
+                  <% end %>
+                <% end %>
               <% end %>
-            <% end %>
-
+            </div>
             <span id="like_count_<%= @portfolio.id %>" class="fw-bold">
               Likes: <%= @portfolio.likes.count %>
             </span>
           </div>
+
         </div>
       </div>
     </div>
 
-    <!-- Columna derecha: Comentarios -->
-    <div class="col-md-6 mb-3">
-      <div class="card shadow-sm" style="height: 500px;">
+    <!-- Right Column: Comments -->
+    <div class="col-md-6 mb-3 d-flex">
+      <div class="card shadow-sm comments-container w-100">
+
+        <!-- Header -->
         <div class="card-header bg-secondary text-white">
-          <h3 class="mb-0">Comentarios</h3>
+          <h3 class="mb-0">Comentaios</h3>
         </div>
 
-        <div class="card-body d-flex flex-column" style="height: 100%;">
-          <!-- Lista de comentarios como tarjetas -->
-          <div class="flex-grow-1 overflow-auto mb-3">
-            <% @portfolio.comments.includes(:user).each do |comment| %>
-              <div class="card mb-2">
-                <div class="card-body p-2">
-                  <p class="mb-1"><%= comment.body %></p>
+        <!-- Body -->
+        <div class="card-body d-flex flex-column flex-grow-2">
 
-                  <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">
-                      <%= comment.user.name %> · <%= time_ago_in_words(comment.created_at) %> ago
-                    </small>
-
-                    <% if current_user == comment.user || current_user.admin? %>
-                      <%= button_to "Eliminar",
-                          tattoo_artist_portfolio_comment_path(@portfolio.tattoo_artist, @portfolio, comment),
-                          method: :delete,
-                          form: { data: { turbo_stream: true } },
-                          class: "btn btn-sm btn-outline-danger" %>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-            <div class="mt-2">
-            <div class="flex-row">
-              <% if user_signed_in? %>
-                <div id="new_comment" class="card p-3">
-                  <%= render "comments/form",
-                      portfolio: @portfolio,
-                      comment: @portfolio.comments.build %>
-                  <!-- Solo agregamos Bootstrap para que textarea y botón estén alineados verticalmente -->
-                  <style>
-                    #new_comment form {
-                      display: flex;
-                      flex-direction: column;
-                    }
-                    #new_comment textarea {
-                      margin-bottom: 0.5rem;
-                    }
-                    #new_comment input[type="submit"] {
-                      align-self: flex-end;
-                    }
-                  </style>
-                </div>
-              <% else %>
-                <p class="text-muted">Debes iniciar sesión para comentar.</p>
-              <% end %>
+          <!-- Fixed Form at top -->
+          <% if user_signed_in? %>
+            <div id="new_comment" class="new-comment-form ">
+              <%= render "comments/form", portfolio: @portfolio, comment: @portfolio.comments.build %>
             </div>
-          </div>
+          <% else %>
+            <p class="text-muted">You must sign in to comment.</p>
+          <% end %>
+
+          <!-- Scrollable comment list -->
+          <div class="comments-list flex-grow-1 overflow-auto px-1 mt-2" id="comments_list">
+            <%= render @portfolio.comments.includes(:user).order(created_at: :desc) %>
           </div>
 
-          <!-- Formulario para nuevo comentario -->
-          
         </div>
       </div>
     </div>
+
   </div>
 </div>

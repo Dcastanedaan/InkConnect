@@ -1,23 +1,29 @@
 <%= turbo_stream.replace "like_frame_#{@portfolio.id}" do %>
-  <%= turbo_frame_tag "like_frame_#{@portfolio.id}" do %>
+  <div class="me-3" id="like_frame_<%= @portfolio.id %>">
     <% like = @portfolio.likes.find_by(user: current_user) %>
 
     <% if like %>
-      <%= button_to "Unlike",
-          tattoo_artist_portfolio_like_path(@portfolio.tattoo_artist, @portfolio, like),
+      <%= button_to tattoo_artist_portfolio_like_path(@portfolio.tattoo_artist, @portfolio, like),
           method: :delete,
-          form: { data: { turbo_stream: true } } %>
+          form: { data: { turbo_stream: true } },
+          class: "like-btn" do %>
+
+        <i class="fa-solid fa-heart"></i>  <!-- corazón lleno -->
+      <% end %>
     <% else %>
-      <%= button_to "Like",
-          tattoo_artist_portfolio_likes_path(@portfolio.tattoo_artist, @portfolio),
+      <%= button_to tattoo_artist_portfolio_likes_path(@portfolio.tattoo_artist, @portfolio),
           method: :post,
-          form: { data: { turbo_stream: true } } %>
+          form: { data: { turbo_stream: true } },
+          class: "like-btn" do %>
+
+        <i class="fa-regular fa-heart"></i>  <!-- corazón vacío -->
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 <% end %>
 
 <%= turbo_stream.replace "like_count_#{@portfolio.id}" do %>
-  <%= turbo_frame_tag "like_count_#{@portfolio.id}" do %>
+  <span id="like_count_<%= @portfolio.id %>" class="fw-bold">
     Likes: <%= @portfolio.likes.reload.count %>
-  <% end %>
+  </span>
 <% end %>

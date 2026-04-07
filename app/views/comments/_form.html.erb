@@ -9,11 +9,14 @@
     </div>
   <% end %>
 
-  <div>
-    <%= f.text_area :body, placeholder: "Escribe un comentario..." %>
+  <div class="mb-2">
+    <%= f.text_area :body,
+        placeholder: "Escribe un comentario...",
+        class: "form-control custom-textarea",
+        rows: 2 %>
   </div>
 
-  <div>
-    <%= f.submit "Comentar" %>
+  <div class="text-end">
+    <%= f.submit "Comenta", class: "btn custom-btn" %>
   </div>
 <% end %>
